@@ -1,0 +1,9 @@
+{
+  	"presets": [["es2015", {"modules": false}], "react", "stage-0"],
+  	"env": {
+		"test": {
+			"presets": [["es2015", {"modules": "commonjs"}], "react", "stage-0"],
+			"sourceMaps": "inline"
+		}
+	}
+}

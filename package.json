@@ -10,11 +10,15 @@
     "typecheck": "flow",
     "lint": "eslint src",
     "lint:css": "stylelint src/**/*.css",
-    "test": "ava",
+    "test": "BABEL_ENV=test ava",
     "test:ci": "yarn typecheck & yarn lint && yarn lint:css && yarn test:cover",
-    "test:cover": "nyc --reporter=lcov --reporter=text yarn test"
+    "test:cover": "nyc --all --reporter=lcov --reporter=text yarn test"
   },
   "dependencies": {
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
     "history": "^4.6.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
@@ -27,11 +31,10 @@
     "redux-promise": "^0.5.3"
   },
   "devDependencies": {
-    "@mizchi/babel-preset": "^1.0.1",
-    "@mizchi/postcss-config": "^1.0.0",
-    "ava": "^0.18.1",
+    "ava": "^0.19.1",
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",
+    "babel-plugin-istanbul": "^4.1.3",
     "babel-preset-env": "^1.2.2",
     "css-loader": "^0.27.3",
     "enzyme": "^2.7.1",
@@ -54,72 +57,24 @@
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.2"
   },
-  "babel": {
-    "env": {
-      "development": {
-        "presets": [
-          "@mizchi/babel-preset",
-          [
-            "env",
-            {
-              "targets": {
-                "Chrome": 57
-              },
-              "exclude": [
-                "transform-regenerator"
-              ]
-            }
-          ]
-        ],
-        "plugins": [
-          "react-hot-loader/babel"
-        ]
-      },
-      "production": {
-        "presets": [
-          "@mizchi/babel-preset",
-          [
-            "env",
-            {
-              "targets": {
-                "browsers": [
-                  "last 2 versions",
-                  "IE 11"
-                ]
-              }
-            }
-          ]
-        ]
-      }
-    }
-  },
   "ava": {
     "babel": {
       "presets": [
-        "@mizchi/babel-preset",
-        [
-          "env",
-          {
-            "targets": {
-              "node": 7.7
-            },
-            "exclude": [
-              "transform-regenerator"
-            ],
-            "modules": "commonjs"
-          }
-        ]
+        "es2015",
+        "react",
+        "stage-0"
       ]
     },
+    "source": [
+      "src/**/*.js",
+      "!src/**/*.test.js",
+      "!src/**/test.js"
+    ],
     "files": "src/**/*.test.js",
     "require": [
+      "babel-polyfill",
       "babel-register",
       "mock-css-modules"
-    ]
-  },
-  "eslintConfig": {
-    "extends": [
-      "mizchi"
     ]
   },
   "stylelint": {
